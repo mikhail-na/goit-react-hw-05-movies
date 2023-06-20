@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useLocation, useParams} from 'react-router-dom';
 import { getMovieDetails } from 'services/Api';
 import { Container, DescriptionBox, Title, List, Item, InfoBox, ListInfo, ListInfoItem, LinkInfo, Button } from './MovieDetails.module';
@@ -9,7 +9,7 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
-  const backPageLink = location.state?.from ?? '/';
+  const backPageLink = useRef(location.state?.from ?? '/');
 
   console.log(location);
 
@@ -43,7 +43,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={backPageLink}>
+      <Link to={backPageLink.current}>
         <Button type="button">Go back</Button>
       </Link>
       {movieInfo && (
